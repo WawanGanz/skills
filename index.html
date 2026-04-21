@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>whatever</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #f093fb;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { cursor: none !important; } /* Sembunyikan cursor asli untuk custom cursor */
+
+        body { 
+            background: #050505; 
+            color: white; 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Liquid Background Effect --- */
+        .liquid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #050505, #0a0a1a);
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            filter: blur(80px);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%) rotate(0deg); }
+            to { transform: translate(50%, 40%) rotate(360deg); }
+        }
+
+        /* --- Wrapper & Layout --- */
+        .wrapper { padding: 60px 20px; max-width: 1100px; margin: auto; }
+
+        .hero-section { 
+            text-align: center; 
+            margin-bottom: 100px; 
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .main-title { 
+            font-family: 'Syne', sans-serif; 
+            font-size: clamp(3rem, 10vw, 5rem); 
+            margin: 0; 
+            background: linear-gradient(to right, #fff, var(--primary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
+
+        /* --- Liquid Glass Cards --- */
+        .card-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 40px; 
+        }
+
+        .skill-card { 
+            background: var(--glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border);
+            padding: 50px 30px;
+            border-radius: 32px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .skill-card:hover::before { left: 100%; }
+
+        /* --- Vertical Progress Bar --- */
+        .v-progress-wrapper {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            bottom: 20px;
+            width: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .v-progress-bar {
+            position: absolute;
+            bottom: 0; width: 100%; height: 0;
+            background: linear-gradient(to top, var(--secondary), var(--primary));
+            box-shadow: 0 0 20px var(--secondary);
+            transition: height 2s cubic-bezier(0.17, 0.85, 0.32, 1.2);
+            border-radius: 10px;
+        }
+
+        /* --- Typography & Icons --- */
+        .app-icon { 
+            width: 70px; height: 70px; 
+            margin-bottom: 20px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+            transition: transform 0.3s ease;
+        }
+        .skill-card:hover .app-icon { transform: rotate(10deg) scale(1.1); }
+
+        .group-title { 
+            font-family: 'Syne', sans-serif; 
+            font-size: 1.8rem; 
+            margin-bottom: 50px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .percent-tag {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-top: 10px;
+        }
+
+        /* --- Custom Cursor --- */
+        .cursor {
+            width: 20px; height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-blur {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(79, 172, 254, 0.15) 0%, transparent 70%);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer { text-align: center; padding: 60px 0; opacity: 0.4; font-size: 0.8rem; letter-spacing: 2px; }
+
+        /* --- Social Media Buttons --- */
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .social-btn {
+            background: var(--glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border);
+            padding: 20px 30px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+        }
+    </style>
+</head>
+<body>
+
+    <div class="liquid-bg">
+        <div class="blob"></div>
+    </div>
+    <div class="cursor"></div>
+    <div class="cursor-blur"></div>
+
+    <div class="wrapper">
+        <header class="hero-section">
+            <h1 class="main-title">wann</h1>
+            <p style="letter-spacing: 8px; opacity: 0.5; font-weight: 300;">Curently Learning</p>
+        </header>
+
+        <main>
+            <section>
+                <h2 class="group-title">/ Visual Motion Specialist</h2>
+                <div class="card-grid">
+                    <div class="skill-card">
+                        <div class="v-progress-wrapper">
+                            <div class="v-progress-bar" data-percent="90%"></div>
+                        </div>
+                        <img src="https://img.icons8.com/color/144/adobe-after-effects.png" class="app-icon">
+                        <h3>After Effects</h3>
+                        <p style="opacity: 0.6; font-size: 0.9rem;">High-End VFX & Compositing</p>
+                        <div class="percent-tag">90%</div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="v-progress-wrapper">
+                            <div class="v-progress-bar" data-percent="40%"></div>
+                        </div>
+                        <img src="https://img.icons8.com/color/144/adobe-premiere-pro.png" class="app-icon">
+                        <h3>Premiere Pro</h3>
+                        <p style="opacity: 0.6; font-size: 0.9rem;">Professional Storytelling</p>
+                        <div class="percent-tag">40%</div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="v-progress-wrapper">
+                            <div class="v-progress-bar" data-percent="100%"></div>
+                        </div>
+                        <img src="https://freelogopng.com/images/all_img/1664284690Capcut-Logo-PNG.png" class="app-icon">
+                        <h3>CapCut</h3>
+                        <p style="opacity: 0.6; font-size: 0.9rem;">Viral Short-Form Content</p>
+                        <div class="percent-tag">100%</div>
+                    </div>
+                </div>
+            </section>
+
+            <div style="height: 80px;"></div>
+
+            <section>
+                <h2 class="group-title">/ Technical Drafting</h2>
+                <div class="card-grid">
+                    <div class="skill-card">
+                        <div class="v-progress-wrapper">
+                            <div class="v-progress-bar" data-percent="58%"></div>
+                        </div>
+                        <img src="https://img.icons8.com/color/144/autodesk-autocad.png" class="app-icon">
+                        <h3>AutoCAD</h3>
+                        <p style="opacity: 0.6; font-size: 0.9rem;">Precision 2D Drafting</p>
+                        <div class="percent-tag">58%</div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="v-progress-wrapper">
+                            <div class="v-progress-bar" data-percent="50%"></div>
+                        </div>
+                        <img src="https://img.icons8.com/?size=100&id=12502&format=png&color=1C79BA" class="app-icon">
+                        <h3>SketchUp</h3>
+                        <p style="opacity: 0.6; font-size: 0.9rem;">Advanced 3D Modeling</p>
+                        <div class="percent-tag">50%</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            &copy; An Otodidak Person
+        </footer>
+    </div>
+
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.cursor');
+        const blur = document.querySelector('.cursor-blur');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+            blur.style.left = e.clientX + 'px';
+            blur.style.top = e.clientY + 'px';
+        });
+
+        // Skill Animation on Scroll
+        const observerOptions = { threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target.querySelector('.v-progress-bar');
+                    bar.style.height = bar.getAttribute('data-percent');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-card').forEach(card => observer.observe(card));
+
+        // Hover Effect Expansion
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                cursor.style.transform += ' scale(4)';
+                cursor.style.background = 'var(--primary)';
+            });
+            card.addEventListener('mouseleave', () => {
+                cursor.style.transform = cursor.style.transform.replace(' scale(4)', '');
+                cursor.style.background = 'white';
+            });
+        });
+    </script>
+</body>
+</html>
