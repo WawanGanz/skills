@@ -2,34 +2,40 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MySkills</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MySkills | WANN</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Special+Elite&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #ff0033; 
-            --dark-bg: #0a0a0a;
-            --glass: rgba(20, 20, 20, 0.9);
-            --border: rgba(255, 0, 51, 0.3);
-            --adobe-ae: #cf96fd;
-            --adobe-pr: #ea77ff;
+            --primary: #ff0055; 
+            --dark-bg: #050505;
+            --glass: rgba(10, 10, 10, 0.95);
+            --border: #330011;
+            --accent-purple: #6600ff;
+            
+            --adobe-ae: #ff00ff;
+            --adobe-pr: #8800ff;
             --adobe-cc: #ffffff;
-            --adobe-cad: #ff4d4d;
-            --adobe-skp: #32a852;
+            --adobe-cad: #ff0044;
+            --adobe-skp: #00ffcc;
         }
 
-        * { cursor: none !important; }
+        * { 
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body { 
             background: var(--dark-bg); 
-            color: #e0e0e0; 
+            color: #d1d1d1; 
             font-family: 'Inter', sans-serif; 
             margin: 0; 
             overflow-x: hidden;
             min-height: 100vh;
+            line-height: 1.5;
         }
 
-        /* Noise Animation Overlay */
+        /* Noise Overlay - Reduced for Mobile performance */
         body::before {
             content: "";
             position: fixed;
@@ -37,167 +43,156 @@
             background: url('https://unlimited.fyi/images/noise.png');
             opacity: 0.05;
             pointer-events: none;
-            z-index: 10000;
-            animation: noise-shift 0.2s infinite;
-        }
-        @keyframes noise-shift {
-            0% { transform: translate(0,0); }
-            50% { transform: translate(-1%, 1%); }
-            100% { transform: translate(1%, -1%); }
+            z-index: 100;
         }
 
         .liquid-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at center, #1a0000 0%, #050505 100%);
+            background: #050505;
         }
 
         .blob {
             position: absolute;
-            width: 600px; height: 600px;
-            background: #440000;
-            filter: blur(120px);
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, #330011 0%, transparent 70%);
+            filter: blur(40px);
             border-radius: 50%;
-            opacity: 0.15;
-            animation: pulse 10s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+            opacity: 0.3;
+            animation: pulse 10s infinite alternate ease-in-out;
         }
 
         @keyframes pulse {
-            0% { transform: translate(-10%, -10%) scale(1); opacity: 0.1; }
-            100% { transform: translate(15%, 15%) scale(1.3); opacity: 0.2; }
+            0% { transform: translate(-20%, -20%) scale(1); }
+            100% { transform: translate(10%, 10%) scale(1.1); }
         }
 
-        .wrapper { padding: 60px 20px; max-width: 1100px; margin: auto; }
+        .wrapper { 
+            padding: 20px; 
+            max-width: 1100px; 
+            margin: auto; 
+            position: relative;
+            z-index: 1;
+        }
 
-        /* Header Glitch */
+        header { padding: 40px 0; }
+
         .main-title { 
             font-family: 'Cinzel', serif;
-            font-size: clamp(3.5rem, 12vw, 7rem); 
+            font-size: clamp(2.5rem, 15vw, 5rem); 
             margin: 0; 
-            color: var(--primary);
+            color: #fff;
+            text-shadow: 3px 3px 0px var(--primary);
             text-transform: uppercase;
-            letter-spacing: 12px;
+            letter-spacing: 5px;
             text-align: center;
-            animation: glitch 5s infinite;
-        }
-
-        @keyframes glitch {
-            0%, 90%, 100% { transform: none; opacity: 1; }
-            92% { transform: skew(2deg); opacity: 0.8; }
-            95% { transform: skew(-5deg); text-shadow: 5px 0 red, -5px 0 blue; }
-            97% { transform: none; }
+            line-height: 1;
         }
         
         .subtitle {
             font-family: 'Special Elite', cursive;
-            opacity: 0.5;
+            color: var(--primary);
             text-align: center;
-            margin-top: 5px;
+            margin-top: 15px;
+            font-size: 0.9rem;
             letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .group-title {
             font-family: 'Cinzel', serif; 
-            border-bottom: 2px solid var(--primary); 
-            display: inline-block; 
-            padding-bottom: 5px; 
-            margin: 60px 0 30px;
-            font-size: 1.5rem;
+            border-left: 4px solid var(--primary); 
+            background: linear-gradient(90deg, rgba(255, 0, 85, 0.15), transparent);
+            display: block; 
+            padding: 12px 15px; 
+            margin: 40px 0 25px;
+            font-size: 1rem;
             letter-spacing: 3px;
+            color: #fff;
         }
 
-        /* Card Grid System */
         .card-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 30px; 
+            grid-template-columns: 1fr; /* Default mobile 1 column */
+            gap: 20px; 
+        }
+
+        /* Desktop Grid */
+        @media (min-width: 768px) {
+            .card-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .wrapper { padding: 40px; }
         }
 
         .skill-card { 
             background: var(--glass);
             border: 1px solid var(--border);
-            padding: 45px 25px;
+            padding: 30px 20px;
             position: relative;
             text-align: center;
-            border-radius: 4px;
             opacity: 0; 
-            transform: translateY(30px);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: opacity 0.8s ease, transform 0.8s ease, border 0.3s ease;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            box-shadow: 6px 6px 0px rgba(0,0,0,1);
         }
 
         .skill-card.show { opacity: 1; transform: translateY(0); }
 
-        /* Floating Icon & Glow */
         .adobe-icon {
-            width: 60px; height: 60px;
-            margin: 0 auto 20px;
-            border: 2px solid currentColor;
-            border-radius: 4px;
+            width: 50px; height: 50px;
+            margin: 0 auto 15px;
+            border: 1px solid currentColor;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0,0,0,0.8);
-            animation: float 4s infinite ease-in-out;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.2rem;
         }
 
-        .adobe-icon span { font-weight: 700; font-size: 1.6rem; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-        }
-
-        .skill-card:hover .adobe-icon {
-            box-shadow: 0 0 20px currentColor, inset 0 0 10px currentColor;
-            transform: scale(1.1) translateZ(40px);
-            animation-play-state: paused;
-        }
-
-        /* Progress Bar */
         .v-progress-wrapper {
-            position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-            background: rgba(255,255,255,0.05);
+            position: absolute; right: 0; top: 0; bottom: 0; width: 4px;
+            background: rgba(255,255,255,0.03);
         }
         .v-progress-bar {
             position: absolute; bottom: 0; width: 100%; height: 0;
             background: var(--primary);
-            box-shadow: 0 0 15px var(--primary);
-            transition: height 2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            box-shadow: 0 0 10px var(--primary);
+            transition: height 1.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        h3 { font-family: 'Cinzel', serif; margin: 10px 0; font-size: 1.2rem; }
-        .desc { opacity: 0.5; font-size: 0.8rem; margin-bottom: 15px; }
-        .percent-tag { font-family: 'Special Elite'; color: var(--primary); font-size: 1rem; }
+        h3 { font-family: 'Cinzel', serif; margin: 10px 0; font-size: 1.1rem; color: #fff; }
+        .desc { opacity: 0.6; font-size: 0.75rem; margin-bottom: 15px; }
+        .percent-tag { font-family: 'Special Elite'; color: var(--primary); font-size: 1.1rem; }
 
-        /* Cursor */
+        /* Cursor - Hidden on mobile */
         .cursor {
-            width: 20px; height: 20px; position: fixed; pointer-events: none; z-index: 9999;
-            mix-blend-mode: difference;
+            display: none;
+            width: 30px; height: 30px; position: fixed; pointer-events: none; z-index: 9999;
         }
-        .cursor::before, .cursor::after { content: ''; position: absolute; background: white; }
-        .cursor::before { width: 100%; height: 2px; top: 50%; left: 0; }
-        .cursor::after { width: 2px; height: 100%; left: 50%; top: 0; }
+        @media (min-width: 1024px) {
+            .cursor { display: block; }
+            * { cursor: none !important; }
+        }
+        .cursor::before, .cursor::after { content: ''; position: absolute; background: var(--primary); }
+        .cursor::before { width: 100%; height: 1px; top: 50%; left: 0; }
+        .cursor::after { width: 1px; height: 100%; left: 50%; top: 0; }
 
-        footer { text-align:center; padding: 80px 0; font-family:'Special Elite'; opacity:0.3; font-size:0.8rem; letter-spacing: 2px;}
+        footer { text-align:center; padding: 60px 0; font-family:'Special Elite'; color: var(--primary); opacity:0.4; font-size:0.7rem; letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
     <div class="liquid-bg">
-        <div class="blob" style="top: 10%; left: 5%;"></div>
-        <div class="blob" style="bottom: 10%; right: 5%; animation-delay: -3s;"></div>
+        <div class="blob" style="top: 0%; left: -20%;"></div>
+        <div class="blob" style="bottom: 0%; right: -20%; animation-delay: -5s; background: radial-gradient(circle, #1a0033 0%, transparent 70%);"></div>
     </div>
     
     <div class="cursor"></div>
 
     <div class="wrapper">
-        <header class="hero-section">
+        <header>
             <h1 class="main-title">w a n n</h1>
-            <p class="subtitle">Curently Learning</p>
+            <p class="subtitle">// Curently Learning //</p>
         </header>
 
         <main>
@@ -205,7 +200,7 @@
             <div class="card-grid">
                 <div class="skill-card">
                     <div class="v-progress-wrapper"><div class="v-progress-bar" data-percent="90%"></div></div>
-                    <div class="adobe-icon" style="color: var(--adobe-ae); animation-delay: 0s;"><span>Ae</span></div>
+                    <div class="adobe-icon" style="color: var(--adobe-ae);"><span>Ae</span></div>
                     <h3>After Effects</h3>
                     <p class="desc">High-End Motion & VFX</p>
                     <div class="percent-tag">90%</div>
@@ -213,7 +208,7 @@
 
                 <div class="skill-card">
                     <div class="v-progress-wrapper"><div class="v-progress-bar" data-percent="40%"></div></div>
-                    <div class="adobe-icon" style="color: var(--adobe-pr); animation-delay: -1s;"><span>Pr</span></div>
+                    <div class="adobe-icon" style="color: var(--adobe-pr);"><span>Pr</span></div>
                     <h3>Premiere Pro</h3>
                     <p class="desc">Professional Storytelling</p>
                     <div class="percent-tag">40%</div>
@@ -221,7 +216,7 @@
 
                 <div class="skill-card">
                     <div class="v-progress-wrapper"><div class="v-progress-bar" data-percent="100%"></div></div>
-                    <div class="adobe-icon" style="color: var(--adobe-cc); animation-delay: -2s;"><span>Cc</span></div>
+                    <div class="adobe-icon" style="color: var(--adobe-cc);"><span>Cc</span></div>
                     <h3>CapCut</h3>
                     <p class="desc">Viral Content Mastery</p>
                     <div class="percent-tag">100%</div>
@@ -232,7 +227,7 @@
             <div class="card-grid">
                 <div class="skill-card">
                     <div class="v-progress-wrapper"><div class="v-progress-bar" data-percent="80%"></div></div>
-                    <div class="adobe-icon" style="color: var(--adobe-cad); animation-delay: -0.5s;"><span>Ac</span></div>
+                    <div class="adobe-icon" style="color: var(--adobe-cad);"><span>Ac</span></div>
                     <h3>AutoCAD</h3>
                     <p class="desc">Precision 2D Drafting</p>
                     <div class="percent-tag">80%</div>
@@ -240,7 +235,7 @@
 
                 <div class="skill-card">
                     <div class="v-progress-wrapper"><div class="v-progress-bar" data-percent="80%"></div></div>
-                    <div class="adobe-icon" style="color: var(--adobe-skp); animation-delay: -1.5s;"><span>Sk</span></div>
+                    <div class="adobe-icon" style="color: var(--adobe-skp);"><span>Sk</span></div>
                     <h3>SketchUp</h3>
                     <p class="desc">Architectural 3D Modeling</p>
                     <div class="percent-tag">80%</div>
@@ -249,49 +244,56 @@
         </main>
 
         <footer>
-            &copy; 2026 - WANN - LOL:X
+            &times; 2026 - WANN - STREIGHT EDGE &times;
         </footer>
     </div>
 
     <script>
         const cursor = document.querySelector('.cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
-        });
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Custom Cursor Only for Desktop
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX - 15 + 'px';
+                cursor.style.top = e.clientY - 15 + 'px';
+            });
+        }
+
+        // Skill Card Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('show');
-                        const bar = entry.target.querySelector('.v-progress-bar');
-                        bar.style.height = bar.getAttribute('data-percent');
-                    }, index * 150);
+                    entry.target.classList.add('show');
+                    const bar = entry.target.querySelector('.v-progress-bar');
+                    bar.style.height = bar.getAttribute('data-percent');
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
         document.querySelectorAll('.skill-card').forEach(card => {
             observer.observe(card);
 
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
+            // Hover effects only for Desktop
+            if (!isMobile) {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) - rect.width / 2;
+                    const y = (e.clientY - rect.top) - rect.height / 2;
+                    card.style.transform = `perspective(1000px) rotateX(${-y/20}deg) rotateY(${x/20}deg) scale(1.02)`;
+                    cursor.style.transform = 'scale(2) rotate(45deg)';
+                });
 
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-                cursor.style.transform = 'scale(2) rotate(45deg)';
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
-                cursor.style.transform = 'scale(1) rotate(0deg)';
-            });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `none`;
+                    cursor.style.transform = 'scale(1) rotate(0deg)';
+                });
+            }
         });
     </script>
 </body>
